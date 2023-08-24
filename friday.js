@@ -5,7 +5,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { InteractionResponseType } = require('discord-api-types/v9');
 
 // Bot-Token
-const token = 'ODI4MTg0MDUyNjI3NTM3OTUw.Gcgeaa.EOtIrTxOM8ef4KCkMrtQSTSbVkwEhuDrs64Pl0';
+const token = 'token';
 
 // Client erstellen
 const client = new Client({
