@@ -7,9 +7,9 @@ const axios = require('axios');
 
 
 // API Key für Openweathermap
-const apiKey = '767ff0ecc5a1c3b2e3797f6421e76784';
+const apiKey = 'APIKey';
 // Bot-Token
-const token = 'MTExODYwMjE4NjY3OTY2MDU5NQ.GOapZa.-pF4kPuDHt4wJ2GQMkRnWUagNHXstFApj8LrYA';
+const token = 'token';
 
 // Client erstellen
 const client = new Client({
@@ -38,7 +38,7 @@ const rest = new REST({ version: '9' }).setToken(token);
     console.log('Starte Slash-Befehle Registrierung...');
 
     await rest.put(
-      Routes.applicationGuildCommands('1118602186679660595', '1118598988736778259'),
+      Routes.applicationGuildCommands('Application-ID', 'Server-ID'),
       { body: commands },
     );
 
