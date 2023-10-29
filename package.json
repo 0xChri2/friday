@@ -1,7 +1,19 @@
 {
   "dependencies": {
     "axios": "^1.5.1",
+    "cheerio": "^1.0.0-rc.12",
     "discord-api-types": "^0.37.61",
     "discord.js": "^14.13.0"
-  }
+  },
+  "name": "friday",
+  "description": "The Friday Discord Bot offers useful features for your Discord server, including a Ping-Pong game and the ability to fetch the current weather forecast for a specified location.",
+  "version": "1.0.0",
+  "main": "fridayV2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm install && node fridayV2.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

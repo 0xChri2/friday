@@ -4,6 +4,7 @@ const { Routes } = require('discord-api-types/v9');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { InteractionResponseType } = require('discord-api-types/v9');
 const axios = require('axios');
+const cheerio = require('cheerio');
 
 
 // API Key für Openweathermap
@@ -21,7 +22,7 @@ const commands = [
   new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Ping-Pong!'),
-    new SlashCommandBuilder()
+  new SlashCommandBuilder()
     .setName('weather')
     .setDescription('Get the current weather for a location')
     .addStringOption(option =>
@@ -64,37 +65,29 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-// /weather "Location"  command Implementation
 client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand() || interaction.commandName !== 'weather') return;
-  
-    const location = interaction.options.getString('location');
-  
-    try {
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`);
-      const data = response.data;
-  
-      const temperature = data.main.temp;
-      const feelsLike = data.main.feels_like;
-      const humidity = data.main.humidity;
-      const weatherDescription = data.weather[0].description;
-      const windSpeed = data.wind.speed;
-  
-      const weatherInfo = `The current weather in ${location}:
-      - Temperature: ${temperature}°C
-      - Feels like: ${feelsLike}°C
-      - Humidity: ${humidity}%
-      - Weather: ${weatherDescription}
-      - Wind Speed: ${windSpeed} m/s`;
-  
-      await interaction.reply(weatherInfo);
-    } catch (error) {
-      await interaction.reply('Error fetching weather data. Please check the location and try again.');
+  if (!interaction.isCommand() || interaction.commandName !== 'weather') return;
+
+  const location = interaction.options.getString('location');
+
+  try {
+    if (!location) {
+      await interaction.reply('Please provide a location.');
+      return;
     }
-  });
-  
-  
-  
-  
+
+    const response = await axios.get(`https://de.wttr.in/${location}?1QT`);
+    const $ = cheerio.load(response.data);
+    var preContent = $('pre').text();
+
+    const message = `Weather information for ${location}:\n\`\`\`${preContent}\`\`\``;
+
+    await interaction.reply(message);
+  } catch (error) {
+    await interaction.reply(error.message);
+  }
+});
+
+
 // Bot einloggen
 client.login(token);
